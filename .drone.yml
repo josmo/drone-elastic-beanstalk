@@ -1,0 +1,25 @@
+build:
+  image: golang:1.5
+  commands:
+    - make deps
+    - make build
+    - make test
+
+publish:
+  docker:
+    username: drone
+    password: $$DOCKER_PASS
+    email: $$DOCKER_EMAIL
+    repo: plugins/drone-elastic-beanstalk
+    when:
+      branch: master
+
+plugin:
+  name: Elastic Beanstalk
+  desc: Deploys or updates a project on AWS Elastic Beanstalk
+  type: deploy
+  image: plugins/drone-elastic-beanstalk
+  labels:
+    - aws
+    - elastic
+    - beanstalk
