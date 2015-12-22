@@ -21,5 +21,4 @@ plugin:
   image: plugins/drone-elastic-beanstalk
   labels:
     - aws
-    - elastic
-    - beanstalk
+    - paas
