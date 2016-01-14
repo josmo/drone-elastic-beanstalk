@@ -1,7 +1,14 @@
 package main
 
 type Params struct {
-	AccessKeyID     string `json:"access_key_id"`
-	SecretAccessKey string `json:"secret_access_key"`
-	Region          string `json:"region"`
+	AccessKey    string `json:"access_key"`
+	SecretKey    string `json:"secret_key"`
+	Region       string `json:"region"`
+	Application  string `json:"application"`
+	VersionLabel string `json:"version_label"`
+	Description  string `json:"description"`
+	AutoCreate   bool   `json:"auto_create"`
+	Process      bool   `json:"process"`
+	BucketName   string `json:"bucket_name"`
+	BucketKey    string `json:"bucket_key"`
 }
