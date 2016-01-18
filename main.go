@@ -13,12 +13,11 @@ import (
 )
 
 var (
-	build     string
 	buildDate string
 )
 
 func main() {
-	fmt.Printf("Drone Elastic Beanstalk Plugin built at %s\n", buildDate)
+	fmt.Printf("Drone AWS Elastic Beanstalk Plugin built at %s\n", buildDate)
 
 	repo := drone.Repo{}
 	build := drone.Build{}
