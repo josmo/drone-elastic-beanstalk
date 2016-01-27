@@ -88,6 +88,23 @@ func main() {
 		},
 	)
 
+	if vargs.UpdateEnvironment == true {
+
+		if vargs.EnvironmentName == "" {
+			fmt.Println("Can't update environment without environment name")
+			os.Exit(1)
+		}
+
+		_, err = svc.UpdateEnvironment(
+			&elasticbeanstalk.UpdateEnvironmentInput{
+				VersionLabel:    aws.String(vargs.VersionLabel),
+				ApplicationName: aws.String(vargs.Application),
+				Description:     aws.String(vargs.Description),
+				EnvironmentName: aws.String(vargs.EnvironmentName),
+			},
+		)
+	}
+
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)

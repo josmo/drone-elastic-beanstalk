@@ -11,6 +11,8 @@ override the default configuration with the following parameters:
 * `process` - Preprocess and validate the manifest, defaults to `false`
 * `bucket_name` - Bucket for `S3` source bundle
 * `bucket_key` - Key for `S3` source bundle
+* `update_environment` - Flag whether to update ElasticBeansTalk environment with the new version
+* `environment_name` - Environment Name (optional), if update_environment true
 
 ## Example
 
