@@ -12,5 +12,5 @@ type Params struct {
 	BucketName        string `json:"bucket_name"`
 	BucketKey         string `json:"bucket_key"`
 	EnvironmentName   string `json:"environment_name"`
-	UpdateEnvironment bool   `json:"update_environment"`
+	EnvironmentUpdate bool   `json:"environment_update"`
 }

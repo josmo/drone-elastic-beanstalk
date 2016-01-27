@@ -88,7 +88,7 @@ func main() {
 		},
 	)
 
-	if vargs.UpdateEnvironment == true {
+	if vargs.EnvironmentUpdate == true {
 
 		if vargs.EnvironmentName == "" {
 			fmt.Println("Can't update environment without environment name")
