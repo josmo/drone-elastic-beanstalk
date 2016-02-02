@@ -1,22 +1,37 @@
 build:
   image: golang:1.5
+  environment:
+    - CGO_ENABLED=0
   commands:
     - make deps
+    - make vet
     - make build
     - make test
 
 publish:
+  coverage:
+    when:
+      branch: master
   docker:
-    username: drone
+    username: $$DOCKER_USER
     password: $$DOCKER_PASS
     email: $$DOCKER_EMAIL
     repo: plugins/drone-elastic-beanstalk
+    tag: latest
     when:
       branch: master
+  docker:
+    username: $$DOCKER_USER
+    password: $$DOCKER_PASS
+    email: $$DOCKER_EMAIL
+    repo: plugins/drone-elastic-beanstalk
+    tag: develop
+    when:
+      branch: develop
 
 plugin:
   name: Elastic Beanstalk
-  desc: Deploys or updates a project on AWS Elastic Beanstalk
+  desc: Deploy or update a project on AWS Elastic Beanstalk
   type: deploy
   image: plugins/drone-elastic-beanstalk
   labels:

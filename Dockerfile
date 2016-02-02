@@ -1,4 +1,4 @@
-# Docker image for the Drone Elastic Beanstalk plugin
+# Docker image for the Drone AWS Elastic Beanstalk plugin
 #
 #     cd $GOPATH/src/github.com/drone-plugins/drone-elastic-beanstalk
 #     make deps build docker
