@@ -4,7 +4,7 @@
 [![Coverage Status](https://aircover.co/badges/drone-plugins/drone-elastic-beanstalk/coverage.svg)](https://aircover.co/drone-plugins/drone-elastic-beanstalk)
 [![](https://badge.imagelayers.io/plugins/drone-elastic-beanstalk:latest.svg)](https://imagelayers.io/?images=plugins/drone-elastic-beanstalk:latest 'Get your own badge on imagelayers.io')
 
-Drone plugin to deploy or update a project on AWS Elastic Beanstalk
+Drone plugin to deploy or update a project on AWS Elastic Beanstalk. For the usage information and a listing of the available options please take a look at [the docs](DOCS.md).
 
 ## Binary
 
