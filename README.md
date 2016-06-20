@@ -14,50 +14,7 @@ Build the binary using `make`:
 make deps build
 ```
 
-### Example
 
-```sh
-./drone-elastic-beanstalk <<EOF
-{
-    "repo": {
-        "clone_url": "git://github.com/drone/drone",
-        "owner": "drone",
-        "name": "drone",
-        "full_name": "drone/drone"
-    },
-    "system": {
-        "link_url": "https://beta.drone.io"
-    },
-    "build": {
-        "number": 22,
-        "status": "success",
-        "started_at": 1421029603,
-        "finished_at": 1421029813,
-        "message": "Update the Readme",
-        "author": "johnsmith",
-        "author_email": "john.smith@gmail.com"
-        "event": "push",
-        "branch": "master",
-        "commit": "436b7a6e2abaddfd35740527353e78a227ddcb2c",
-        "ref": "refs/heads/master"
-    },
-    "workspace": {
-        "root": "/drone/src",
-        "path": "/drone/src/github.com/drone/drone"
-    },
-    "vargs": {
-        "access_key": "970d28f4dd477bc184fbd10b376de753",
-        "secret_key": "9c5785d3ece6a9cdefa42eb99b58986f9095ff1c",
-        "region": "us-east-1",
-        "version_label": "v1",
-        "description": "Deployed with DroneCI",
-        "auto_create": true,
-        "bucket_name": "my-bucket-name",
-        "bucket_key": "970d28f4dd477bc184fbd10b376de753"
-    }
-}
-EOF
-```
 
 ## Docker
 
@@ -67,47 +24,20 @@ Build the container using `make`:
 make deps docker
 ```
 
-### Example
+## Usage
 
-```sh
-docker run -i plugins/drone-elastic-beanstalk <<EOF
-{
-    "repo": {
-        "clone_url": "git://github.com/drone/drone",
-        "owner": "drone",
-        "name": "drone",
-        "full_name": "drone/drone"
-    },
-    "system": {
-        "link_url": "https://beta.drone.io"
-    },
-    "build": {
-        "number": 22,
-        "status": "success",
-        "started_at": 1421029603,
-        "finished_at": 1421029813,
-        "message": "Update the Readme",
-        "author": "johnsmith",
-        "author_email": "john.smith@gmail.com"
-        "event": "push",
-        "branch": "master",
-        "commit": "436b7a6e2abaddfd35740527353e78a227ddcb2c",
-        "ref": "refs/heads/master"
-    },
-    "workspace": {
-        "root": "/drone/src",
-        "path": "/drone/src/github.com/drone/drone"
-    },
-    "vargs": {
-        "access_key": "970d28f4dd477bc184fbd10b376de753",
-        "secret_key": "9c5785d3ece6a9cdefa42eb99b58986f9095ff1c",
-        "region": "us-east-1",
-        "version_label": "v1",
-        "description": "Deployed with DroneCI",
-        "auto_create": true,
-        "bucket_name": "my-bucket-name",
-        "bucket_key": "970d28f4dd477bc184fbd10b376de753"
-    }
-}
-EOF
+Build and publish from your current working directory:
+
 ```
+docker run --rm                     \
+  -e PLUGIN_BUCKET=<bucket>         \
+  -e AWS_ACCESS_KEY_ID=<token>      \
+  -e AWS_SECRET_ACCESS_KEY=<secret> \
+  -e PLUGIN_APPLICATION_NAME=<app>  \
+  -e PLUGIN_ENVIRONMENT_NAME=<env>  \
+  -e PLUGING_BUCKET_KEY=<bucketkey> \
+  -v $(pwd):$(pwd)                  \
+  -w $(pwd)                         \
+  plugins/s3 --dry-run
+```
+

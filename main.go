@@ -1,113 +1,104 @@
 package main
 
 import (
-	"fmt"
+	log "github.com/Sirupsen/logrus"
+	"github.com/codegangsta/cli"
 	"os"
-
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/elasticbeanstalk"
-	"github.com/drone/drone-go/drone"
-	"github.com/drone/drone-go/plugin"
 )
 
-var (
-	buildCommit string
-)
+var version string
 
 func main() {
-	fmt.Printf("Drone AWS Elastic Beanstalk Plugin built from %s\n", buildCommit)
+	app := cli.NewApp()
+	app.Name = "s3 artifact plugin"
+	app.Usage = "s3 artifact plugin"
+	app.Action = run
+	app.Version = version
+	app.Flags = []cli.Flag{
 
-	repo := drone.Repo{}
-	build := drone.Build{}
-	vargs := Params{}
-
-	plugin.Param("repo", &repo)
-	plugin.Param("build", &build)
-	plugin.Param("vargs", &vargs)
-	plugin.MustParse()
-
-	if vargs.Application == "" {
-		vargs.Application = repo.Name
-	}
-
-	if vargs.AccessKey == "" {
-		fmt.Println("Please provide an access key id")
-		os.Exit(1)
-	}
-
-	if vargs.SecretKey == "" {
-		fmt.Println("Please provide a secret access key")
-		os.Exit(1)
-	}
-
-	if vargs.Region == "" {
-		fmt.Println("Please provide a region")
-		os.Exit(1)
-	}
-
-	if vargs.VersionLabel == "" {
-		fmt.Println("Please provide a version label")
-		os.Exit(1)
-	}
-
-	if vargs.BucketName == "" {
-		fmt.Println("Please provide a bucket name")
-		os.Exit(1)
-	}
-
-	if vargs.BucketKey == "" {
-		fmt.Println("Please provide a bucket key")
-		os.Exit(1)
-	}
-
-	svc := elasticbeanstalk.New(
-		session.New(&aws.Config{
-			Region: aws.String(vargs.Region),
-			Credentials: credentials.NewStaticCredentials(
-				vargs.AccessKey,
-				vargs.SecretKey,
-				"",
-			),
-		}),
-	)
-
-	_, err := svc.CreateApplicationVersion(
-		&elasticbeanstalk.CreateApplicationVersionInput{
-			VersionLabel:          aws.String(vargs.VersionLabel),
-			ApplicationName:       aws.String(vargs.Application),
-			Description:           aws.String(vargs.Description),
-			AutoCreateApplication: aws.Bool(vargs.AutoCreate),
-			Process:               aws.Bool(vargs.Process),
-			SourceBundle: &elasticbeanstalk.S3Location{
-				S3Bucket: aws.String(vargs.BucketName),
-				S3Key:    aws.String(vargs.BucketKey),
-			},
+		cli.StringFlag{
+			Name:   "access-key",
+			Usage:  "aws access key",
+			EnvVar: "PLUGIN_ACCESS_KEY,AWS_ACCESS_KEY_ID",
 		},
-	)
+		cli.StringFlag{
+			Name:   "secret-key",
+			Usage:  "aws secret key",
+			EnvVar: "PLUGIN_SECRET_KEY,AWS_SECRET_ACCESS_KEY",
+		},
+		cli.StringFlag{
+			Name:   "bucket",
+			Usage:  "aws bucket",
+			Value:  "us-east-1",
+			EnvVar: "PLUGIN_BUCKET",
+		},
+		cli.StringFlag{
+			Name:   "region",
+			Usage:  "aws region",
+			Value:  "us-east-1",
+			EnvVar: "PLUGIN_REGION",
+		},
 
-	if vargs.EnvironmentUpdate == true && err == nil {
-
-		if vargs.EnvironmentName == "" {
-			fmt.Println("Can't update environment without environment name")
-			os.Exit(1)
-		}
-
-		_, err = svc.UpdateEnvironment(
-			&elasticbeanstalk.UpdateEnvironmentInput{
-				VersionLabel:    aws.String(vargs.VersionLabel),
-				ApplicationName: aws.String(vargs.Application),
-				Description:     aws.String(vargs.Description),
-				EnvironmentName: aws.String(vargs.EnvironmentName),
-			},
-		)
+		cli.StringFlag{
+			Name:   "bucket-key",
+			Usage:  "upload files from source folder",
+			EnvVar: "PLUGIN_BUCKET_KEY",
+		},
+		cli.StringFlag{
+			Name:   "application",
+			Usage:  "application name for beanstalk",
+			EnvVar: "PLUGIN_APPLICATION",
+		},
+		cli.StringFlag{
+			Name:   "environment-name",
+			Usage:  "environment name in the app to update",
+			EnvVar: "PLUGIN_ENVIRONMENT_NAME",
+		},
+		cli.StringFlag{
+			Name:   "version-label",
+			Usage:  "version label for the app",
+			EnvVar: "PLUGIN_VERSION_LABEL",
+		},
+		cli.StringFlag{
+			Name:   "description",
+			Usage:  "description for the app version",
+			EnvVar: "PLUGIN_DESCRIPTION",
+		},
+		cli.StringFlag{
+			Name:   "auto-create",
+			Usage:  "auto create app if it doesn't exist",
+			EnvVar: "PLUGIN_AUTO_CREATE",
+		},
+		cli.StringFlag{
+			Name:   "process",
+			Usage:  "Preprocess and validate manifest",
+			EnvVar: "PLUGIN_PROCESS",
+		},
+		cli.StringFlag{
+			Name:   "environment-update",
+			Usage:  "update the environment",
+			EnvVar: "PLUGIN_ENVIRONMENT_UPDATE",
+		},
+	}
+	if err := app.Run(os.Args); err != nil {
+		log.Fatal(err)
+	}
+}
+func run(c *cli.Context) error {
+	plugin := Plugin{
+		Key:               c.String("access-key"),
+		Secret:            c.String("secret-key"),
+		Bucket:            c.String("bucket"),
+		BucketKey:         c.String("bucket-key"),
+		Application:       c.String("application"),
+		EnvironmentName:   c.String("environment-name"),
+		VersionLabel:      c.String("version-label"),
+		Description:       c.String("description"),
+		AutoCreate:        c.Bool("description"),
+		Process:           c.Bool("process"),
+		EnvironmentUpdate: c.Bool("environment-update"),
+		Region:            c.String("region"),
 	}
 
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
-	fmt.Println("Successfully deployed")
+	return plugin.Exec()
 }
