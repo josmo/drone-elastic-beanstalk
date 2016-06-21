@@ -10,8 +10,8 @@ var version string
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "s3 artifact plugin"
-	app.Usage = "s3 artifact plugin"
+	app.Name = "Beanstalk deployment plugin"
+	app.Usage = "beanstalk deployment plugin"
 	app.Action = run
 	app.Version = version
 	app.Flags = []cli.Flag{

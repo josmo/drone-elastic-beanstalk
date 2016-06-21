@@ -57,6 +57,8 @@ func (p *Plugin) Exec() error {
 
 	client := p.client()
 
+
+
 	log.WithFields(log.Fields{
 		"region":           p.Region,
 		"application-name": p.Application,
@@ -90,8 +92,7 @@ func (p *Plugin) Exec() error {
 	if p.EnvironmentUpdate == true && err == nil {
 
 		if p.EnvironmentName == "" {
-			fmt.Println("Can't update environment without environment name")
-			os.Exit(1)
+			return fmt.Errorf("Can't update environment without environment name")
 		}
 
 		_, err = client.UpdateEnvironment(
