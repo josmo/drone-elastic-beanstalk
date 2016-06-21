@@ -94,7 +94,7 @@ func run(c *cli.Context) error {
 		EnvironmentName:   c.String("environment-name"),
 		VersionLabel:      c.String("version-label"),
 		Description:       c.String("description"),
-		AutoCreate:        c.Bool("description"),
+		AutoCreate:        c.Bool("auto-create"),
 		Process:           c.Bool("process"),
 		EnvironmentUpdate: c.Bool("environment-update"),
 		Region:            c.String("region"),

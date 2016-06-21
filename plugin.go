@@ -67,6 +67,7 @@ func (p *Plugin) Exec() error {
 		"versionlabel":     p.VersionLabel,
 		"description":      p.Description,
 		"env-update":       p.EnvironmentUpdate,
+		"auto-create":	    p.AutoCreate,
 	}).Info("Attempting to create and update")
 
 	_, err := client.CreateApplicationVersion(
