@@ -1,12 +1,14 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	log "github.com/Sirupsen/logrus"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/elasticbeanstalk"
+	"strings"
 )
 
 // Plugin defines the beanstalk plugin parameters.
@@ -23,7 +25,8 @@ type Plugin struct {
 	// ap-southeast-2
 	// ap-northeast-1
 	// sa-east-1
-	Region string
+	Region       string
+	YamlVerified bool
 
 	BucketKey         string
 	Application       string
@@ -37,26 +40,28 @@ type Plugin struct {
 
 func (p *Plugin) client() *elasticbeanstalk.ElasticBeanstalk {
 
-	// Use key and secret if provided otherwise fall back to ec2 instance profile
-	if p.Key != "" && p.Secret != "" {
-		return elasticbeanstalk.New(session.New(), &aws.Config{
-			Credentials: credentials.NewStaticCredentials(p.Key, p.Secret, ""),
-			Region:      aws.String(p.Region),
-		})
-	} else {
-		return elasticbeanstalk.New(session.New(), &aws.Config{
-			Region: aws.String(p.Region),
-		})
-	}
 }
 
 // Exec runs the plugin
 func (p *Plugin) Exec() error {
 	// create the client
 
-	client := p.client()
+	conf := &aws.Config{
+		Region: aws.String(p.Region),
+	}
 
+	// Use key and secret if provided otherwise fall back to ec2 instance profile
+	if p.Key != "" && p.Secret != "" {
+		conf.Credentials = credentials.NewStaticCredentials(p.Key, p.Secret, "")
+	} else if p.YamlVerified != true {
+		log.WithFields(log.Fields{
+			"yamlVerified": p.YamlVerified,
+		}).Error("When using instance role you must have the yaml verified")
 
+		return errors.New("Security issue: When using instance role you must have the yaml verified")
+	}
+
+	client := elasticbeanstalk.New(session.New(), conf)
 
 	log.WithFields(log.Fields{
 		"region":           p.Region,
@@ -67,7 +72,7 @@ func (p *Plugin) Exec() error {
 		"versionlabel":     p.VersionLabel,
 		"description":      p.Description,
 		"env-update":       p.EnvironmentUpdate,
-		"auto-create":	    p.AutoCreate,
+		"auto-create":      p.AutoCreate,
 	}).Info("Attempting to create and update")
 
 	_, err := client.CreateApplicationVersion(

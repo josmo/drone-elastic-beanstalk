@@ -4,6 +4,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 	"os"
+	"strings"
 )
 
 var version string
@@ -78,6 +79,11 @@ func main() {
 			Usage:  "update the environment",
 			EnvVar: "PLUGIN_ENVIRONMENT_UPDATE",
 		},
+		cli.BoolTFlag{
+			Name:   "yaml-verified",
+			Usage:  "Ensure the yaml was signed",
+			EnvVar: "DRONE_YAML_VERIFIED",
+		},
 	}
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
@@ -97,6 +103,7 @@ func run(c *cli.Context) error {
 		Process:           c.Bool("process"),
 		EnvironmentUpdate: c.Bool("environment-update"),
 		Region:            c.String("region"),
+		YamlVerified:      c.Bool("yaml-verified"),
 	}
 
 	return plugin.Exec()
