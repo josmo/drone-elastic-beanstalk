@@ -4,7 +4,6 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 	"os"
-	"strings"
 )
 
 var version string
@@ -103,7 +102,7 @@ func run(c *cli.Context) error {
 		Process:           c.Bool("process"),
 		EnvironmentUpdate: c.Bool("environment-update"),
 		Region:            c.String("region"),
-		YamlVerified:      c.Bool("yaml-verified"),
+		YamlVerified:      c.BoolT("yaml-verified"),
 	}
 
 	return plugin.Exec()
