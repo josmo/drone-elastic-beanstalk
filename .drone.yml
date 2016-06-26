@@ -5,11 +5,11 @@ pipeline:
     build:
       image: golang:1.6
       commands:
-        - CGO_ENABLED=0 go build
+        - CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${DRONE_BUILD_NUMBER}"
     docker:
-      username: $$DOCKER_USER
-      password: $$DOCKER_PASS
-      email: $$DOCKER_EMAIL
+      username: ${DOCKER_USER}
+      password: ${DOCKER_PASS}
+      email: ${DOCKER_EMAIL}
       repo: plugins/drone-elastic-beanstalk
       tag: latest
       when:
