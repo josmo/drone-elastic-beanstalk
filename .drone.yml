@@ -2,19 +2,22 @@ workspace:
   base: /go
 
 pipeline:
-    build:
-      image: golang:1.6
-      commands:
-        - CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${DRONE_BUILD_NUMBER}"
-    docker:
-      username: ${DOCKER_USER}
-      password: ${DOCKER_PASS}
-      email: ${DOCKER_EMAIL}
-      repo: plugins/drone-elastic-beanstalk
-      tag: latest
-      when:
-        branch: master
-        event: push
+  test:
+    image: golang:1.6
+    environment:
+      - CGO_ENABLED=0
+    commands:
+      - go vet
+      - go test -cover -coverprofile=coverage.out
+      - go build -ldflags "-s -w -X main.build=$DRONE_BUILD_NUMBER" -a -tags netgo
+
+  latest:
+    image: docker
+    repo: plugins/elastic-beanstalk
+    tags: [ "latest", "1.0", "1" ]
+    when:
+      branch: master
+      event: push
 
 plugin:
   name: Elastic Beanstalk
