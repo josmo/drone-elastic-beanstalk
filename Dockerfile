@@ -1,9 +1,4 @@
-# Docker image for the Drone AWS Elastic Beanstalk plugin
-#
-#     cd $GOPATH/src/github.com/drone-plugins/drone-elastic-beanstalk
-#     make deps build docker
-
-FROM alpine:3.3
+FROM alpine:3.4
 
 RUN apk update && \
   apk add \
