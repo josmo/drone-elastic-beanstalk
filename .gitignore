@@ -24,5 +24,7 @@ _testmain.go
 *.prof
 .env
 
+.idea
+
 coverage.out
 drone-elastic-beanstalk
