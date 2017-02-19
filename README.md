@@ -1,10 +1,5 @@
 # drone-elastic-beanstalk
 
-[![Build Status](http://beta.drone.io/api/badges/drone-plugins/drone-elastic-beanstalk/status.svg)](http://beta.drone.io/drone-plugins/drone-elastic-beanstalk)
-[![Go Doc](https://godoc.org/github.com/drone-plugins/drone-elastic-beanstalk?status.svg)](http://godoc.org/github.com/drone-plugins/drone-elastic-beanstalk)
-[![Go Report](https://goreportcard.com/badge/github.com/drone-plugins/drone-elastic-beanstalk)](https://goreportcard.com/report/github.com/drone-plugins/drone-elastic-beanstalk)
-[![Join the chat at https://gitter.im/drone/drone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/drone/drone)
-
 Drone plugin to deploy or update a project on AWS Elastic Beanstalk. For the
 usage information and a listing of the available options please take a look at
 [the docs](DOCS.md).
@@ -49,5 +44,5 @@ docker run --rm \
   -e PLUGING_BUCKET_KEY=<bucketkey> \
   -v $(pwd):$(pwd) \
   -w $(pwd) \
-  plugins/elastic-beanstalk
+  peloton/drone-elastic-beanstalk
 ```

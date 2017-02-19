@@ -12,9 +12,13 @@ pipeline:
       - go build -ldflags "-s -w -X main.build=$DRONE_BUILD_NUMBER" -a -tags netgo
 
   latest:
-    image: docker
-    repo: plugins/elastic-beanstalk
-    tags: [ "latest", "1.0", "1" ]
+    image: plugins/docker
+    username: josmo
+    password: ${DOCKER_PASSWORD}
+    repo: peloton/drone-elastic-beanstalk
+    tag:
+      - latest
+      - ${DRONE_BUILD_NUMBER}
     when:
       branch: master
       event: push
