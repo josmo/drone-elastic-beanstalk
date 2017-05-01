@@ -1,6 +1,6 @@
 workspace:
   base: /go
-
+  path: src/github.com/josmo/drone-elastic-beanstalk
 pipeline:
   test:
     image: golang:1.6
