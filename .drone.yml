@@ -14,7 +14,6 @@ pipeline:
   latest:
     image: plugins/docker
     username: josmo
-    password: <password>
     secrets: [ docker_password ]
     repo: peloton/drone-elastic-beanstalk
     tag:
