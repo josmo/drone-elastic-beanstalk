@@ -1,3 +1,4 @@
+[![Build Status](https://drone.seattleslow.com/api/badges/josmo/drone-elastic-beanstalk/status.svg)](https://drone.seattleslow.com/josmo/drone-elastic-beanstalk)
 # drone-elastic-beanstalk
 
 Drone plugin to deploy or update a project on AWS Elastic Beanstalk. For the
