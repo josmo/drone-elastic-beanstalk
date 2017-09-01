@@ -1,9 +1,17 @@
-FROM alpine:3.4
+FROM alpine:3.6 as alpine
+RUN apk add -U --no-cache ca-certificates
 
-RUN apk update && \
-  apk add \
-    ca-certificates && \
-  rm -rf /var/cache/apk/*
+FROM scratch
 
-ADD drone-elastic-beanstalk /bin/
+ENV GODEBUG=netdns=go
+
+COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+LABEL org.label-schema.version=latest
+LABEL org.label-schema.vcs-url="https://github.com/josmo/drone-elastic-beanstalk.git"
+LABEL org.label-schema.name="Drone elastic-beanstalk"
+LABEL org.label-schema.vendor="Josmo"
+
+ADD release/linux/amd64/drone-elastic-beanstalk /bin/
 ENTRYPOINT ["/bin/drone-elastic-beanstalk"]
+

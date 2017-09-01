@@ -4,16 +4,17 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/urfave/cli"
 	"os"
+	"fmt"
 )
 
-var version string
+var build string
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "Beanstalk deployment plugin"
 	app.Usage = "beanstalk deployment plugin"
 	app.Action = run
-	app.Version = version
+	app.Version = fmt.Sprintf("1.0.0+%s", build)
 	app.Flags = []cli.Flag{
 
 		cli.StringFlag{
