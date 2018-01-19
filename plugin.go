@@ -1,8 +1,8 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -24,8 +24,7 @@ type Plugin struct {
 	// ap-southeast-2
 	// ap-northeast-1
 	// sa-east-1
-	Region       string
-	YamlVerified bool
+	Region string
 
 	BucketKey         string
 	Application       string
@@ -48,10 +47,7 @@ func (p *Plugin) Exec() error {
 	// Use key and secret if provided otherwise fall back to ec2 instance profile
 	if p.Key != "" && p.Secret != "" {
 		conf.Credentials = credentials.NewStaticCredentials(p.Key, p.Secret, "")
-	} else if p.YamlVerified != true {
-		return errors.New("Security issue: When using instance role you must have the yaml verified")
 	}
-
 	client := elasticbeanstalk.New(session.New(), conf)
 
 	log.WithFields(log.Fields{

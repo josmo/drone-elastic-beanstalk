@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"os"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/urfave/cli"
-	"os"
-	"fmt"
 )
 
 var build string
@@ -38,7 +39,6 @@ func main() {
 			Value:  "us-east-1",
 			EnvVar: "PLUGIN_REGION",
 		},
-
 		cli.StringFlag{
 			Name:   "bucket-key",
 			Usage:  "upload files from source folder",
@@ -79,11 +79,6 @@ func main() {
 			Usage:  "update the environment",
 			EnvVar: "PLUGIN_ENVIRONMENT_UPDATE",
 		},
-		cli.BoolTFlag{
-			Name:   "yaml-verified",
-			Usage:  "Ensure the yaml was signed",
-			EnvVar: "DRONE_YAML_VERIFIED",
-		},
 	}
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
@@ -103,7 +98,6 @@ func run(c *cli.Context) error {
 		Process:           c.Bool("process"),
 		EnvironmentUpdate: c.Bool("environment-update"),
 		Region:            c.String("region"),
-		YamlVerified:      c.BoolT("yaml-verified"),
 	}
 
 	return plugin.Exec()
