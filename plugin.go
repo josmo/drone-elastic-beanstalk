@@ -46,6 +46,8 @@ func (p *Plugin) Exec() error {
 
 	// Use key and secret if provided otherwise fall back to ec2 instance profile
 	if p.Key != "" && p.Secret != "" {
+		log.Info("AWS Key and/or Secret not provided")
+		log.Warning("Falling back to ec2 instance profile")
 		conf.Credentials = credentials.NewStaticCredentials(p.Key, p.Secret, "")
 	}
 	client := elasticbeanstalk.New(session.New(), conf)
@@ -78,7 +80,7 @@ func (p *Plugin) Exec() error {
 	if err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
-		}).Error("Problem create application")
+		}).Error("Problem creating application")
 		return err
 	}
 	if p.EnvironmentUpdate == true && err == nil {
