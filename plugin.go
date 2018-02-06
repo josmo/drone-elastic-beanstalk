@@ -39,17 +39,16 @@ type Plugin struct {
 // Exec runs the plugin
 func (p *Plugin) Exec() error {
 	// create the client
-
 	conf := &aws.Config{
 		Region: aws.String(p.Region),
 	}
 
-	// Use key and secret if provided otherwise fall back to ec2 instance profile
 	if p.Key != "" && p.Secret != "" {
-		log.Info("AWS Key and/or Secret not provided")
-		log.Warning("Falling back to ec2 instance profile")
 		conf.Credentials = credentials.NewStaticCredentials(p.Key, p.Secret, "")
+	} else {
+		log.Warn("AWS Key and/or Secret not provided (falling back to ec2 instance profile)")
 	}
+
 	client := elasticbeanstalk.New(session.New(), conf)
 
 	log.WithFields(log.Fields{
