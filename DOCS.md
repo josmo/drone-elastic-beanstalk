@@ -9,7 +9,7 @@ override the default configuration with the following parameters:
 * `description` - A description about the deployment, optional
 * `auto_create` - Automatically create the application, defaults to `false`
 * `process` - Preprocess and validate the manifest, defaults to `false`
-* `bucket_name` - Bucket for `S3` source bundle
+* `bucket` - Bucket for `S3` source bundle
 * `bucket_key` - Key for `S3` source bundle
 * `environment_update` - Flag whether to update ElasticBeansTalk environment with the new version
 * `environment_name` - Environment Name (optional), if update_environment true
@@ -21,13 +21,13 @@ The following is a sample configuration in your .drone.yml file:
 ```yaml
 deploy:
   beanstalk:
-    image: peloton/drone-elasctic-beanstalk
+    image: peloton/drone-elastic-beanstalk
     access_key: 970d28f4dd477bc184fbd10b376de753
     secret_key: 9c5785d3ece6a9cdefa42eb99b58986f9095ff1c
     region: us-east-1
     version_label: v1
     description: Deployed with DroneCI
     auto_create: true
-    bucket_name: my-bucket-name
+    bucket: my-bucket-name
     bucket_key: 970d28f4dd477bc184fbd10b376de753
 ```
