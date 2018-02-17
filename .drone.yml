@@ -53,7 +53,7 @@ pipeline:
     image: plugins/docker
     username: josmo
     repo: peloton/drone-elastic-beanstalk
-    tags: [ latest, 1.0.0, 1.0, 1 ]
+    tags: [ latest, 1.0.1, 1.0, 1 ]
     secrets: [ docker_password ]
     dockerfile: Dockerfile
     when:
