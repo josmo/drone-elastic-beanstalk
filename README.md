@@ -1,5 +1,4 @@
-[![Build Status](https://drone.seattleslow.com/api/badges/josmo/drone-elastic-beanstalk/status.svg)](https://drone.seattleslow.com/josmo/drone-elastic-beanstalk)
-[![Join the chat at https://gitter.im/drone/drone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/drone/drone)
+[![Build Status](https://cloud.drone.io/api/badges/josmo/drone-elastic-beanstalk/status.svg)](https://cloud.drone.io/josmo/drone-elastic-beanstalk)
 [![Go Doc](https://godoc.org/github.com/josmo/drone-elastic-beanstalk?status.svg)](http://godoc.org/github.com/josmo/drone-elastic-beanstalk)
 [![Go Report](https://goreportcard.com/badge/github.com/josmo/drone-elastic-beanstalk)](https://goreportcard.com/report/github.com/josmo/elastic-beanstalk)
 [![](https://images.microbadger.com/badges/image/peloton/drone-elastic-beanstalk.svg)](https://microbadger.com/images/peloton/drone-elastic-beanstalk "Get your own image badge on microbadger.com")
@@ -51,4 +50,3 @@ This repo is setup in a way that if you enable a personal drone server to build 
  
 * Build local ```DRONE_REPO_OWNER=josmo DRONE_REPO_NAME=drone-elastic-beanstalk drone exec```
 * on your server just make sure you have DOCKER_USERNAME, DOCKER_PASSWORD, and PLUGIN_REPO set as secrets
- 
