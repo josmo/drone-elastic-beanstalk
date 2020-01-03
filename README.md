@@ -1,7 +1,7 @@
 [![Build Status](https://cloud.drone.io/api/badges/josmo/drone-elastic-beanstalk/status.svg)](https://cloud.drone.io/josmo/drone-elastic-beanstalk)
 [![Go Doc](https://godoc.org/github.com/josmo/drone-elastic-beanstalk?status.svg)](http://godoc.org/github.com/josmo/drone-elastic-beanstalk)
 [![Go Report](https://goreportcard.com/badge/github.com/josmo/drone-elastic-beanstalk)](https://goreportcard.com/report/github.com/josmo/elastic-beanstalk)
-[![](https://images.microbadger.com/badges/image/peloton/drone-elastic-beanstalk.svg)](https://microbadger.com/images/peloton/drone-elastic-beanstalk "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/pelotech/drone-elastic-beanstalk.svg)](https://microbadger.com/images/pelotech/drone-elastic-beanstalk "Get your own image badge on microbadger.com")
 
 # drone-elastic-beanstalk
 
@@ -39,7 +39,7 @@ docker run --rm \
   -e PLUGING_BUCKET_KEY=<bucketkey> \
   -v $(pwd):$(pwd) \
   -w $(pwd) \
-  peloton/drone-elastic-beanstalk
+  pelotech/drone-elastic-beanstalk
 ```
 
 
